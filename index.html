@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Arc Studios | Building Worlds. Inspiring Players.</title>
+    <meta name="description"
+        content="Titan Arc Studios creates immersive gaming experiences with powerful storytelling, futuristic visuals, and player-first design.">
+    <!-- Google Fonts for modern gaming look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <img src="https://res.cloudinary.com/dkbzmua32/image/upload/v1778263615/Untitled_design_1_g4gdmt.png"
+                alt="Loading" class="preloader-logo">
+            <div class="preloader-bar">
+                <div class="preloader-bar-fill" id="preloader-bar-fill"></div>
+            </div>
+            <span class="preloader-text">LOADING<span class="preloader-dots"></span></span>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- 1. Header / Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo-link">
+                <img src="https://res.cloudinary.com/dkbzmua32/image/upload/v1778263615/Untitled_design_1_g4gdmt.png" alt="Titan Arc Studios Logo"
+                    class="nav-logo">
+                <div class="logo-text">
+                    <span class="logo-main">TITAN ARC</span>
+                    <span class="logo-studios"><span class="logo-line"></span>STUDIOS<span
+                            class="logo-line"></span></span>
+                </div>
+            </a>
+
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="#home" class="active">HOME</a>
+                <a href="#games">GAMES</a>
+                <a href="#about">ABOUT</a>
+                <a href="#services">SERVICES</a>
+                <a href="#careers">CAREERS</a>
+                <a href="#news">NEWS</a>
+                <a href="#contact">CONTACT</a>
+            </nav>
+
+            <a href="https://discord.gg/XRvPhW6me" class="join-btn discord-btn">
+                JOIN OUR DISCORD
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.08.08 0 0 0 .03.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. Hero Section -->
+    <section class="hero-new" id="home">
+        <!-- Full-width background image -->
+        <div class="hero-bg-wrapper" id="hero-parallax">
+            <img src="hero.jpg" alt="TitanArc hero" class="hero-bg-img">
+            <div class="hero-fade"></div>
+        </div>
+        <!-- Watermark logo -->
+        <img src="https://res.cloudinary.com/dkbzmua32/image/upload/v1778263615/Untitled_design_1_g4gdmt.png" 
+            class="hero-watermark-img" alt="">
+        <!-- Content overlay -->
+        <div class="hero-container">
+            <div class="hero-left">
+                <div class="hero-text-content">
+                    <h1 class="hero-h1">
+                        <span class="hw" id="hero-typing-target"></span><br>
+                        <span class="hr" id="hero-typing-target-2"></span>
+                    </h1>
+                    <p class="hero-p">TitanArc Studios is an independent game development studio crafting immersive,
+                        high-quality experiences across PC and next-gen platforms.</p>
+                    <div class="hero-actions">
+                        <a href="#games" class="btn btn-primary" id="explore-btn">EXPLORE OUR GAMES</a>
+                        <a href="#trailer" class="btn btn-ghost" id="trailer-btn"><span class="play-icon">▶</span> WATCH
+                            TRAILER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Featured Games Section -->
+    <section class="games" id="games">
+        <div class="section-container">
+            <h2 class="section-title scroll-reveal">Our Games</h2>
+            <!-- Dynamic filter tabs -->
+            <div class="game-filter-tabs" id="game-filter-tabs"></div>
+            <!-- Dynamic game cards -->
+            <div class="games-grid" id="games-grid"></div>
+        </div>
+    </section>
+
+    <!-- 4. About Studio Section -->
+    <section class="about" id="about">
+        <div class="section-container">
+            <h2 class="section-title scroll-reveal">About Titan Arc Studios</h2>
+            <p class="about-text scroll-reveal">
+                Titan Arc Studios is a future-focused gaming company dedicated to building immersive worlds,
+                unforgettable characters, and competitive experiences for players around the globe.
+            </p>
+            <!-- Dynamic stats counters -->
+            <div class="stats-grid scroll-reveal" id="stats-grid"></div>
+            <!-- Dynamic values -->
+            <div class="values-grid" id="values-grid"></div>
+        </div>
+    </section>
+
+    <!-- 5. Latest News Section -->
+    <section class="news" id="news">
+        <div class="section-container">
+            <h2 class="section-title scroll-reveal">Latest News</h2>
+            <!-- Dynamic news cards -->
+            <div class="news-grid" id="news-grid"></div>
+        </div>
+    </section>
+
+    <!-- 6. Careers Section -->
+    <section class="careers" id="careers">
+        <div class="careers-overlay"></div>
+        <div class="section-container careers-content scroll-reveal">
+            <h2 class="careers-title">Join the Arc</h2>
+            <p class="careers-text">
+                We are looking for passionate creators, developers, artists, designers, and storytellers to build the
+                future of gaming.
+            </p>
+            <a href="#games" class="btn btn-primary careers-btn">View Careers</a>
+        </div>
+    </section>
+
+    <!-- 7. Community Section -->
+    <section class="community" id="contact">
+        <div class="section-container">
+            <h2 class="section-title scroll-reveal">Connect With Titan Arc</h2>
+            <!-- Dynamic social links -->
+            <div class="social-links" id="social-links"></div>
+        </div>
+    </section>
+
+    <!-- 8. Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="https://res.cloudinary.com/dkbzmua32/image/upload/v1778263325/Untitled_design_ahgvvf.png" alt="Titan Arc Studios"
+                        class="footer-logo">
+                    <p>Building Worlds. Inspiring Players.</p>
+                </div>
+                <!-- Dynamic footer links -->
+                <div class="footer-links" id="footer-links"></div>
+            </div>
+            <div class="footer-bottom">
+                <p id="footer-copyright"></p>
+                <!-- Dynamic footer social -->
+                <div class="footer-social" id="footer-social"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 15l-6-6-6 6" />
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
