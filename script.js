@@ -15,14 +15,14 @@ const GAMES_DATA = [
     {
         title: "Arc Strike",
         desc: "Fast-paced competitive battles built for skill, strategy, and teamwork.",
-        image: "game_ashes_dawn.png",
+        image: "hero_character.png",
         genre: "Multiplayer Shooter",
         link: "#"
     },
     {
         title: "Worlds Beyond",
         desc: "Explore mysterious planets, hidden cities, and cinematic story missions.",
-        image: "game_chronicles_elysium.png",
+        image: "hero_new.png",
         genre: "Open World Adventure",
         link: "#"
     },
@@ -137,6 +137,15 @@ const FOOTER_SOCIAL_DATA = [
     }
 ];
 
+const SERVICES_DATA = [
+    { icon: "🎮", title: "Game Development", desc: "Full-cycle game development from concept to launch across PC and console platforms." },
+    { icon: "🎨", title: "Art & Design", desc: "Concept art, 3D modeling, environment design, and character creation with cinematic quality." },
+    { icon: "🔊", title: "Sound Design", desc: "Immersive audio landscapes, original soundtracks, and dynamic sound effects." },
+    { icon: "🛠️", title: "QA & Testing", desc: "Comprehensive quality assurance ensuring polished, bug-free player experiences." },
+    { icon: "📡", title: "Live Ops", desc: "Post-launch support, content updates, and community-driven live service management." },
+    { icon: "🎬", title: "Motion Capture", desc: "State-of-the-art motion capture for realistic character animations and cutscenes." }
+];
+
 
 // ============================================
 // 2. DYNAMIC RENDERERS
@@ -155,7 +164,9 @@ function renderGames(filter = "All") {
         card.style.animationDelay = `${i * 0.1}s`;
         card.innerHTML = `
             <div class="game-img-wrapper">
-                <img src="${game.image}" alt="${game.title}" class="game-img" loading="lazy">
+                <div class="game-img-placeholder">
+                    <span class="placeholder-label">COMING SOON</span>
+                </div>
                 <div class="genre-tag">${game.genre}</div>
             </div>
             <div class="game-info">
@@ -176,19 +187,12 @@ function renderGames(filter = "All") {
 
 function renderGameFilterTabs() {
     const tabsContainer = document.getElementById('game-filter-tabs');
-    const genres = ["All", ...new Set(GAMES_DATA.map(g => g.genre))];
+    if (!tabsContainer) return;
     tabsContainer.innerHTML = '';
-    genres.forEach(genre => {
-        const btn = document.createElement('button');
-        btn.className = `filter-tab${genre === "All" ? " active" : ""}`;
-        btn.textContent = genre;
-        btn.addEventListener('click', () => {
-            tabsContainer.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderGames(genre);
-        });
-        tabsContainer.appendChild(btn);
-    });
+    const btn = document.createElement('button');
+    btn.className = 'filter-tab active';
+    btn.textContent = 'All';
+    tabsContainer.appendChild(btn);
 }
 
 function renderNews() {
@@ -250,7 +254,10 @@ function renderSocialLinks() {
     SOCIAL_LINKS_DATA.forEach((social, i) => {
         const a = document.createElement('a');
         a.href = social.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
         a.className = 'social-btn scroll-reveal';
+        a.dataset.brand = social.name.toLowerCase();
         a.style.animationDelay = `${i * 0.1}s`;
         a.innerHTML = `${social.svg}<span>${social.name}</span>`;
         container.appendChild(a);
@@ -276,6 +283,8 @@ function renderFooterSocial() {
     FOOTER_SOCIAL_DATA.forEach(social => {
         const a = document.createElement('a');
         a.href = social.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
         a.setAttribute('aria-label', social.label);
         a.innerHTML = social.svg;
         container.appendChild(a);
@@ -285,6 +294,24 @@ function renderFooterSocial() {
 function renderFooterCopyright() {
     document.getElementById('footer-copyright').textContent =
         `© ${new Date().getFullYear()} Titan Arc Studios. All rights reserved.`;
+}
+
+function renderServices() {
+    const grid = document.getElementById('services-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    SERVICES_DATA.forEach((item, i) => {
+        const card = document.createElement('div');
+        card.className = 'service-card scroll-reveal';
+        card.style.animationDelay = `${i * 0.1}s`;
+        card.innerHTML = `
+            <div class="service-icon">${item.icon}</div>
+            <h4 class="service-title">${item.title}</h4>
+            <p class="service-desc">${item.desc}</p>
+        `;
+        grid.appendChild(card);
+    });
+    observeScrollReveal();
 }
 
 
@@ -533,6 +560,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preloader first
     initPreloader();
 
+    // Init scroll systems before rendering (renderers call observeScrollReveal)
+    initScrollProgress();
+    initScrollReveal();
+
     // Render dynamic content
     renderGameFilterTabs();
     renderGames();
@@ -540,13 +571,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderValues();
     renderStats();
     renderSocialLinks();
+    renderServices();
     renderFooterLinks();
     renderFooterSocial();
     renderFooterCopyright();
-
-    // Interactivity
-    initScrollProgress();
-    initScrollReveal();
     initTypingEffect();
     initCounters();
     initActiveNav();
