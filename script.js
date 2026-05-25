@@ -1,10 +1,10 @@
 // script.js — Dynamic Engine for Titan Arc Studios
 
 // ============================================
-// 1. DATA STORE
+// 1. DATA STORE (defaults — overridden by Firebase if configured)
 // ============================================
 
-const GAMES_DATA = [
+let GAMES_DATA = [
     {
         title: "Titan Arc: Legacy",
         desc: "A futuristic adventure set in a world of ancient technology and rising warriors.",
@@ -35,7 +35,7 @@ const GAMES_DATA = [
     }
 ];
 
-const NEWS_DATA = [
+let NEWS_DATA = [
     {
         category: "Studio Announcement",
         headline: "Titan Arc Studios Officially Launches",
@@ -62,14 +62,14 @@ const VALUES_DATA = [
     { icon: "🎬", title: "Cinematic Storytelling" }
 ];
 
-const STATS_DATA = [
+let STATS_DATA = [
     { value: 4, suffix: "", label: "Games in Development" },
     { value: 50, suffix: "+", label: "Team Members" },
     { value: 1, suffix: "M+", label: "Community Players" },
     { value: 12, suffix: "+", label: "Awards Won" }
 ];
 
-const SOCIAL_LINKS_DATA = [
+let SOCIAL_LINKS_DATA = [
     {
         name: "YouTube",
         url: "https://youtube.com/@titanarcstudios26?si=RoDZeGNb6aVM83yz",
@@ -137,13 +137,31 @@ const FOOTER_SOCIAL_DATA = [
     }
 ];
 
-const SERVICES_DATA = [
-    { icon: "🎮", title: "Game Development", desc: "Full-cycle game development from concept to launch across PC and console platforms." },
-    { icon: "🎨", title: "Art & Design", desc: "Concept art, 3D modeling, environment design, and character creation with cinematic quality." },
-    { icon: "🔊", title: "Sound Design", desc: "Immersive audio landscapes, original soundtracks, and dynamic sound effects." },
-    { icon: "🛠️", title: "QA & Testing", desc: "Comprehensive quality assurance ensuring polished, bug-free player experiences." },
-    { icon: "📡", title: "Live Ops", desc: "Post-launch support, content updates, and community-driven live service management." },
-    { icon: "🎬", title: "Motion Capture", desc: "State-of-the-art motion capture for realistic character animations and cutscenes." }
+let TRAIL_GAMES_DATA = [
+    {
+        title: "Project Nexus: Alpha",
+        status: "OPEN BETA",
+        statusColor: "#4CAF50",
+        desc: "Experience the tactical combat system and explore the first two chapters of the campaign.",
+        platform: "PC",
+        players: "2.4K playing"
+    },
+    {
+        title: "Arc Strike: Demo",
+        status: "EARLY ACCESS",
+        statusColor: "#FF9800",
+        desc: "Jump into fast-paced multiplayer arenas. Test new weapons, maps, and ranked matchmaking.",
+        platform: "PC / Console",
+        players: "1.8K playing"
+    },
+    {
+        title: "Echoes of Elysium: Prologue",
+        status: "COMING SOON",
+        statusColor: "#E1306C",
+        desc: "A free standalone prologue to the open-world epic. Explore the Whispering Ruins.",
+        platform: "PC",
+        players: "Wishlist now"
+    }
 ];
 
 
@@ -153,6 +171,35 @@ const SERVICES_DATA = [
 
 function renderGames(filter = "All") {
     const grid = document.getElementById('games-grid');
+
+    // If Trails filter, render trail game cards
+    if (filter === "Trails") {
+        grid.innerHTML = '';
+        grid.className = 'trail-games-grid-inline';
+        TRAIL_GAMES_DATA.forEach((game, i) => {
+            const card = document.createElement('div');
+            card.className = 'trail-game-card scroll-reveal';
+            card.style.animationDelay = `${i * 0.12}s`;
+            card.innerHTML = `
+                <div class="trail-card-header">
+                    <span class="trail-status" style="background: ${game.statusColor}">${game.status}</span>
+                    <span class="trail-platform">${game.platform}</span>
+                </div>
+                <h3 class="trail-title">${game.title}</h3>
+                <p class="trail-desc">${game.desc}</p>
+                <div class="trail-footer">
+                    <span class="trail-players">${game.players}</span>
+                    <a href="#" class="btn btn-primary trail-play-btn">Play Now</a>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        observeScrollReveal();
+        return;
+    }
+
+    // Default: show regular game cards
+    grid.className = 'games-grid';
     const filtered = filter === "All"
         ? GAMES_DATA
         : GAMES_DATA.filter(g => g.genre === filter);
@@ -181,7 +228,6 @@ function renderGames(filter = "All") {
         `;
         grid.appendChild(card);
     });
-    // Re-observe newly added elements
     observeScrollReveal();
 }
 
@@ -189,10 +235,18 @@ function renderGameFilterTabs() {
     const tabsContainer = document.getElementById('game-filter-tabs');
     if (!tabsContainer) return;
     tabsContainer.innerHTML = '';
-    const btn = document.createElement('button');
-    btn.className = 'filter-tab active';
-    btn.textContent = 'All';
-    tabsContainer.appendChild(btn);
+    const tabs = ['All', 'Trails'];
+    tabs.forEach(name => {
+        const btn = document.createElement('button');
+        btn.className = `filter-tab${name === 'All' ? ' active' : ''}`;
+        btn.textContent = name;
+        btn.addEventListener('click', () => {
+            tabsContainer.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderGames(name);
+        });
+        tabsContainer.appendChild(btn);
+    });
 }
 
 function renderNews() {
@@ -296,18 +350,25 @@ function renderFooterCopyright() {
         `© ${new Date().getFullYear()} Titan Arc Studios. All rights reserved.`;
 }
 
-function renderServices() {
-    const grid = document.getElementById('services-grid');
+function renderTrailGames() {
+    const grid = document.getElementById('trail-games-grid');
     if (!grid) return;
     grid.innerHTML = '';
-    SERVICES_DATA.forEach((item, i) => {
+    TRAIL_GAMES_DATA.forEach((game, i) => {
         const card = document.createElement('div');
-        card.className = 'service-card scroll-reveal';
-        card.style.animationDelay = `${i * 0.1}s`;
+        card.className = 'trail-game-card scroll-reveal';
+        card.style.animationDelay = `${i * 0.12}s`;
         card.innerHTML = `
-            <div class="service-icon">${item.icon}</div>
-            <h4 class="service-title">${item.title}</h4>
-            <p class="service-desc">${item.desc}</p>
+            <div class="trail-card-header">
+                <span class="trail-status" style="background: ${game.statusColor}">${game.status}</span>
+                <span class="trail-platform">${game.platform}</span>
+            </div>
+            <h3 class="trail-title">${game.title}</h3>
+            <p class="trail-desc">${game.desc}</p>
+            <div class="trail-footer">
+                <span class="trail-players">${game.players}</span>
+                <a href="#" class="btn btn-primary trail-play-btn">Play Now</a>
+            </div>
         `;
         grid.appendChild(card);
     });
@@ -556,6 +617,100 @@ function initNavbarScroll() {
 // 4. INIT — Boot Everything
 // ============================================
 
+// Firebase data loader — tries to read from Firestore, falls back to hardcoded defaults
+async function loadFirebaseData() {
+    // Check if Firebase is initialized
+    if (!db) { console.log('Firebase DB not available, using defaults'); return; }
+    console.log('Loading data from Firebase...');
+    try {
+        // Load hero config
+        const heroDoc = await db.collection('site_config').doc('hero').get();
+        if (heroDoc.exists) {
+            const h = heroDoc.data();
+            if (h.image_url) {
+                const heroImg = document.querySelector('.hero-bg-img');
+                if (heroImg) heroImg.src = h.image_url;
+            }
+            // Typing targets are set by initTypingEffect, so store for later
+            window._fbHero = h;
+        }
+
+        // Load games
+        const gamesSnap = await db.collection('games').orderBy('order').get();
+        if (!gamesSnap.empty) {
+            GAMES_DATA.length = 0;
+            gamesSnap.forEach(doc => {
+                const d = doc.data();
+                GAMES_DATA.push({
+                    title: d.title,
+                    desc: d.desc,
+                    image: d.image_url || '',
+                    genre: d.genre || '',
+                    link: d.link || '#'
+                });
+            });
+            renderGames();
+        }
+
+        // Load trail games
+        const trailSnap = await db.collection('trail_games').orderBy('order').get();
+        if (!trailSnap.empty) {
+            TRAIL_GAMES_DATA.length = 0;
+            trailSnap.forEach(doc => {
+                const d = doc.data();
+                TRAIL_GAMES_DATA.push({
+                    title: d.title,
+                    desc: d.desc,
+                    status: d.status || 'COMING SOON',
+                    statusColor: d.statusColor || '#E1306C',
+                    platform: d.platform || 'PC',
+                    players: d.players || ''
+                });
+            });
+        }
+
+        // Load news
+        const newsSnap = await db.collection('news').orderBy('order').get();
+        if (!newsSnap.empty) {
+            NEWS_DATA.length = 0;
+            newsSnap.forEach(doc => {
+                const d = doc.data();
+                NEWS_DATA.push({
+                    category: d.category,
+                    headline: d.headline,
+                    date: d.date,
+                    link: d.link || '#'
+                });
+            });
+            renderNews();
+        }
+
+        // Load stats
+        const statsDoc = await db.collection('site_config').doc('stats').get();
+        if (statsDoc.exists && statsDoc.data().items) {
+            STATS_DATA.length = 0;
+            statsDoc.data().items.forEach(s => STATS_DATA.push(s));
+            renderStats();
+            initCounters();
+        }
+
+        // Load social links
+        const socialDoc = await db.collection('site_config').doc('social').get();
+        if (socialDoc.exists) {
+            const s = socialDoc.data();
+            // Update URLs in SOCIAL_LINKS_DATA
+            SOCIAL_LINKS_DATA.forEach(link => {
+                const key = link.name.toLowerCase();
+                if (s[key]) link.url = s[key];
+            });
+            renderSocialLinks();
+        }
+
+    } catch (e) {
+        console.log('Firebase not configured or unavailable, using defaults:', e.message);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Preloader first
     initPreloader();
@@ -564,14 +719,13 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollProgress();
     initScrollReveal();
 
-    // Render dynamic content
+    // Render dynamic content with defaults first
     renderGameFilterTabs();
     renderGames();
     renderNews();
     renderValues();
     renderStats();
     renderSocialLinks();
-    renderServices();
     renderFooterLinks();
     renderFooterSocial();
     renderFooterCopyright();
@@ -583,4 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initSmoothScroll();
     initNavbarScroll();
+
+    // Then try to load from Firebase (will override and re-render if data exists)
+    loadFirebaseData();
 });
