@@ -1084,7 +1084,7 @@ img {
 }
 
 .interest-btn:hover {
-    background: var(--accent-hover);
+    background: var(--accent-red-hover);
 }
 
 .interest-btn:disabled {
