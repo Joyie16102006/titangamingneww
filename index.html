@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 
 <body>
@@ -105,8 +105,15 @@
         <div class="section-container">
             <!-- Dynamic filter tabs -->
             <div class="game-filter-tabs" id="game-filter-tabs"></div>
-            <!-- Dynamic game cards -->
-            <div class="games-grid" id="games-grid"></div>
+            <!-- Dynamic game cards container with scroll arrow -->
+            <div class="games-scroll-container">
+                <div class="games-grid" id="games-grid"></div>
+                <button class="games-scroll-btn" id="games-scroll-btn" aria-label="Scroll Right">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -165,7 +172,7 @@
                 <div class="footer-brand">
                     <img src="https://res.cloudinary.com/dkbzmua32/image/upload/v1778263325/Untitled_design_ahgvvf.png"
                         alt="Titan Arc Studios" class="footer-logo">
-                    <p>Building Worlds. Inspiring Players.</p>
+                    <p>Building Worlds.<br>Inspiring Players.</p>
                 </div>
                 <!-- Dynamic footer links -->
                 <div class="footer-links" id="footer-links"></div>

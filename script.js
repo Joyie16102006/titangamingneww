@@ -298,34 +298,41 @@ function renderFooterLinks() {
     const container = document.getElementById('footer-links');
     if (!container) return;
     container.innerHTML = '';
-    container.className = 'footer-links-horizontal';
+    container.className = 'footer-links-grid';
     
-    // Row 1: About & News
-    const row1 = document.createElement('div');
-    row1.className = 'footer-links-row';
-    row1.innerHTML = `
+    // Column 1: Studio
+    const col1 = document.createElement('div');
+    col1.className = 'footer-col';
+    col1.innerHTML = `
+        <h4 class="footer-col-title">STUDIO</h4>
         <a href="#about" class="footer-link-item">About</a>
+        <a href="#" class="footer-link-item">Careers</a>
         <a href="#news" class="footer-link-item">News</a>
     `;
     
-    // Row 2: Terms & Privacy
-    const row2 = document.createElement('div');
-    row2.className = 'footer-links-row';
-    row2.innerHTML = `
+    // Column 2: Games
+    const col2 = document.createElement('div');
+    col2.className = 'footer-col';
+    col2.innerHTML = `
+        <h4 class="footer-col-title">GAMES</h4>
+        <a href="#games" class="footer-link-item">Titan Arc: Legacy</a>
+        <a href="#games" class="footer-link-item">Arc Strike</a>
+        <a href="#games" class="footer-link-item">Worlds Beyond</a>
+    `;
+    
+    // Column 3: Legal
+    const col3 = document.createElement('div');
+    col3.className = 'footer-col';
+    col3.innerHTML = `
+        <h4 class="footer-col-title">LEGAL</h4>
         <a href="#" class="footer-link-item">Terms of Service</a>
         <a href="#" class="footer-link-item">Privacy Policy</a>
+        <a href="#" class="footer-link-item">Cookie Policy</a>
     `;
     
-    // Row 3: Email
-    const row3 = document.createElement('div');
-    row3.className = 'footer-links-row';
-    row3.innerHTML = `
-        <a href="mailto:titanarcstudiosofficial@gmail.com" class="footer-link-item">Email: titanarcstudiosofficial@gmail.com</a>
-    `;
-    
-    container.appendChild(row1);
-    container.appendChild(row2);
-    container.appendChild(row3);
+    container.appendChild(col1);
+    container.appendChild(col2);
+    container.appendChild(col3);
 }
 
 function renderFooterSocial() {
@@ -533,6 +540,33 @@ function initParallax() {
         const scrollY = window.scrollY;
         if (scrollY < 800) {
             heroImg.style.transform = `translateY(${scrollY * 0.15}px)`;
+        }
+    });
+}
+
+// --- Horizontal Scroll Button for Games ---
+function initGamesScrollButton() {
+    const btn = document.getElementById('games-scroll-btn');
+    const grid = document.getElementById('games-grid');
+    if (!btn || !grid) return;
+
+    btn.addEventListener('click', () => {
+        const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+        if (grid.scrollLeft >= maxScrollLeft - 15) {
+            grid.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            const card = grid.querySelector('.unified-game-card') || grid.querySelector('.game-card');
+            const scrollAmount = card ? (card.offsetWidth + 30) : 400;
+            grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    });
+
+    grid.addEventListener('scroll', () => {
+        const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+        if (grid.scrollLeft >= maxScrollLeft - 15) {
+            btn.classList.add('at-end');
+        } else {
+            btn.classList.remove('at-end');
         }
     });
 }
@@ -774,6 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initNavbarScroll();
     initInterestForm();
+    initGamesScrollButton();
 
     // Then try to load from Firebase (will override and re-render if data exists)
     loadFirebaseData();
