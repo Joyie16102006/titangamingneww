@@ -1186,14 +1186,14 @@ img {
     color: #E1306C;
 }
 
-/* X (Twitter) — white */
+/* X (Twitter) — black */
 .social-btn[data-brand="x"]:hover {
-    border-color: #fff;
-    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+    border-color: #000000;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 .social-btn[data-brand="x"]:hover svg,
 .social-btn[data-brand="x"]:hover span {
-    color: #fff;
+    color: #000000;
 }
 
 /* 8. Footer */
