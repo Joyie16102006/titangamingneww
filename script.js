@@ -8,29 +8,15 @@ let GAMES_DATA = [
     {
         title: "Titan Arc: Legacy",
         desc: "A futuristic adventure set in a world of ancient technology and rising warriors.",
-        image: "game_project_nexus.png",
+        image: "",
         genre: "Action RPG",
         link: "#"
     },
     {
         title: "Arc Strike",
         desc: "Fast-paced competitive battles built for skill, strategy, and teamwork.",
-        image: "hero_character.png",
+        image: "",
         genre: "Multiplayer Shooter",
-        link: "#"
-    },
-    {
-        title: "Worlds Beyond",
-        desc: "Explore mysterious planets, hidden cities, and cinematic story missions.",
-        image: "hero_new.png",
-        genre: "Open World Adventure",
-        link: "#"
-    },
-    {
-        title: "Shadow Protocol",
-        desc: "Stealth-action espionage in a cyberpunk metropolis with branching narratives.",
-        image: "https://res.cloudinary.com/dkbzmua32/image/upload/v1778350220/hero_character_1778182494477_tudetm.jpg",
-        genre: "Action RPG",
         link: "#"
     }
 ];
@@ -56,17 +42,12 @@ let NEWS_DATA = [
     }
 ];
 
-const VALUES_DATA = [
-    { icon: "🌍", title: "Immersive Worlds" },
-    { icon: "🎮", title: "Player-First Design" },
-    { icon: "🎬", title: "Cinematic Storytelling" }
-];
+const VALUES_DATA = [];
 
 let STATS_DATA = [
     { value: 4, suffix: "", label: "Games in Development" },
     { value: 50, suffix: "+", label: "Team Members" },
-    { value: 1, suffix: "M+", label: "Community Players" },
-    { value: 12, suffix: "+", label: "Awards Won" }
+    { value: 1, suffix: "M+", label: "Community Players" }
 ];
 
 let SOCIAL_LINKS_DATA = [
@@ -93,30 +74,11 @@ let SOCIAL_LINKS_DATA = [
 ];
 
 const FOOTER_LINKS_DATA = [
-    {
-        heading: "Studio",
-        links: [
-            { text: "About", url: "#about" },
-            { text: "Careers", url: "#careers" },
-            { text: "News", url: "#news" }
-        ]
-    },
-    {
-        heading: "Games",
-        links: [
-            { text: "Titan Arc: Legacy", url: "#" },
-            { text: "Arc Strike", url: "#" },
-            { text: "Worlds Beyond", url: "#" }
-        ]
-    },
-    {
-        heading: "Legal",
-        links: [
-            { text: "Terms of Service", url: "#" },
-            { text: "Privacy Policy", url: "#" },
-            { text: "Cookie Policy", url: "#" }
-        ]
-    }
+    { text: "About", url: "#about" },
+    { text: "News", url: "#news" },
+    { text: "Terms of Service", url: "#" },
+    { text: "Privacy Policy", url: "#" },
+    { text: "Email: titanarcstudiosofficial@gmail.com", url: "mailto:titanarcstudiosofficial@gmail.com" }
 ];
 
 const FOOTER_SOCIAL_DATA = [
@@ -145,22 +107,6 @@ let TRAIL_GAMES_DATA = [
         desc: "Experience the tactical combat system and explore the first two chapters of the campaign.",
         platform: "PC",
         players: "2.4K playing"
-    },
-    {
-        title: "Arc Strike: Demo",
-        status: "EARLY ACCESS",
-        statusColor: "#FF9800",
-        desc: "Jump into fast-paced multiplayer arenas. Test new weapons, maps, and ranked matchmaking.",
-        platform: "PC / Console",
-        players: "1.8K playing"
-    },
-    {
-        title: "Echoes of Elysium: Prologue",
-        status: "COMING SOON",
-        statusColor: "#E1306C",
-        desc: "A free standalone prologue to the open-world epic. Explore the Whispering Ruins.",
-        platform: "PC",
-        players: "Wishlist now"
     }
 ];
 
@@ -169,27 +115,42 @@ let TRAIL_GAMES_DATA = [
 // 2. DYNAMIC RENDERERS
 // ============================================
 
-function renderGames(filter = "All") {
+function renderGames(filter = "Games") {
     const grid = document.getElementById('games-grid');
+    grid.innerHTML = '';
+    grid.className = 'unified-games-grid';
 
-    // If Trails filter, render trail game cards
-    if (filter === "Trails") {
-        grid.innerHTML = '';
-        grid.className = 'trail-games-grid-inline';
+    // If Beta filter, render trail game cards
+    if (filter === "Beta") {
         TRAIL_GAMES_DATA.forEach((game, i) => {
             const card = document.createElement('div');
-            card.className = 'trail-game-card scroll-reveal';
+            card.className = 'unified-game-card scroll-reveal';
             card.style.animationDelay = `${i * 0.12}s`;
+            const isComingSoon = game.status === 'COMING SOON' || game.status === 'coming_soon';
+            const actionBtn = isComingSoon
+                ? `<span class="unified-coming-soon-label">Coming Soon</span>`
+                : `<a href="${game.link || '#'}" class="unified-download-btn" target="_blank" rel="noopener noreferrer">
+                        Download
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>`;
+            
+            const hasImage = game.image || game.image_url;
+            const imgContent = hasImage 
+                ? `<img src="${game.image || game.image_url}" alt="${game.title}">` 
+                : `<div class="unified-card-img-placeholder"><span class="unified-img-label">${game.status}</span></div>`;
+
             card.innerHTML = `
-                <div class="trail-card-header">
-                    <span class="trail-status" style="background: ${game.statusColor}">${game.status}</span>
-                    <span class="trail-platform">${game.platform}</span>
+                <div class="unified-card-img">
+                    ${imgContent}
+                    <div class="unified-badge" style="background: ${game.statusColor}">${game.status}</div>
                 </div>
-                <h3 class="trail-title">${game.title}</h3>
-                <p class="trail-desc">${game.desc}</p>
-                <div class="trail-footer">
-                    <span class="trail-players">${game.players}</span>
-                    <a href="#" class="btn btn-primary trail-play-btn">Play Now</a>
+                <div class="unified-card-body">
+                    <h3 class="unified-card-title">${game.title}</h3>
+                    <p class="unified-card-desc">${game.desc}</p>
+                    <div class="unified-card-footer">
+                        <span class="unified-card-meta">${game.players}</span>
+                        ${actionBtn}
+                    </div>
                 </div>
             `;
             grid.appendChild(card);
@@ -199,31 +160,39 @@ function renderGames(filter = "All") {
     }
 
     // Default: show regular game cards
-    grid.className = 'games-grid';
-    const filtered = filter === "All"
+    const filtered = filter === "Games"
         ? GAMES_DATA
         : GAMES_DATA.filter(g => g.genre === filter);
 
-    grid.innerHTML = '';
     filtered.forEach((game, i) => {
         const card = document.createElement('div');
-        card.className = 'game-card scroll-reveal';
+        card.className = 'unified-game-card scroll-reveal';
         card.style.animationDelay = `${i * 0.1}s`;
+        const isComingSoon = !game.link || game.link === '#' || game.status === 'coming_soon';
+        const actionBtn = isComingSoon
+            ? `<span class="unified-coming-soon-label">Coming Soon</span>`
+            : `<a href="${game.link}" class="unified-download-btn" target="_blank" rel="noopener noreferrer">
+                    Download
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>`;
+
+        const hasImage = game.image || game.image_url;
+        const imgContent = hasImage 
+            ? `<img src="${game.image || game.image_url}" alt="${game.title}">` 
+            : `<div class="unified-card-img-placeholder"><span class="unified-img-label">COMING SOON</span></div>`;
+
         card.innerHTML = `
-            <div class="game-img-wrapper">
-                <div class="game-img-placeholder">
-                    <span class="placeholder-label">COMING SOON</span>
-                </div>
-                <div class="genre-tag">${game.genre}</div>
+            <div class="unified-card-img">
+                ${imgContent}
+                <div class="unified-badge">${game.genre}</div>
             </div>
-            <div class="game-info">
-                <h3 class="game-title">${game.title}</h3>
-                <p class="game-desc">${game.desc}</p>
-                <a href="${game.link}" class="btn-learn-more">Learn More 
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
+            <div class="unified-card-body">
+                <h3 class="unified-card-title">${game.title}</h3>
+                <p class="unified-card-desc">${game.desc}</p>
+                <div class="unified-card-footer">
+                    <span class="unified-card-meta">${isComingSoon ? 'Coming Soon' : 'Available'}</span>
+                    ${actionBtn}
+                </div>
             </div>
         `;
         grid.appendChild(card);
@@ -235,10 +204,10 @@ function renderGameFilterTabs() {
     const tabsContainer = document.getElementById('game-filter-tabs');
     if (!tabsContainer) return;
     tabsContainer.innerHTML = '';
-    const tabs = ['All', 'Trails'];
+    const tabs = ['Games', 'Beta'];
     tabs.forEach(name => {
         const btn = document.createElement('button');
-        btn.className = `filter-tab${name === 'All' ? ' active' : ''}`;
+        btn.className = `filter-tab${name === 'Games' ? ' active' : ''}`;
         btn.textContent = name;
         btn.addEventListener('click', () => {
             tabsContainer.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
@@ -257,8 +226,14 @@ function renderNews() {
         card.href = item.link;
         card.className = 'news-card scroll-reveal';
         card.style.animationDelay = `${i * 0.1}s`;
+        
+        const hasImage = item.image || item.image_url;
+        const imgContent = hasImage 
+            ? `<img src="${item.image || item.image_url}" alt="${item.headline}" style="width:100%;height:100%;object-fit:cover;transition:var(--transition);">` 
+            : '';
+
         card.innerHTML = `
-            <div class="news-img-ph"></div>
+            <div class="news-img-ph">${imgContent}</div>
             <div class="news-content">
                 <span class="news-category">${item.category}</span>
                 <h3 class="news-headline">${item.headline}</h3>
@@ -272,7 +247,7 @@ function renderNews() {
 
 function renderValues() {
     const grid = document.getElementById('values-grid');
-    grid.innerHTML = '';
+    if (!grid) return;
     VALUES_DATA.forEach((item, i) => {
         const card = document.createElement('div');
         card.className = 'value-card scroll-reveal';
@@ -321,14 +296,36 @@ function renderSocialLinks() {
 
 function renderFooterLinks() {
     const container = document.getElementById('footer-links');
+    if (!container) return;
     container.innerHTML = '';
-    FOOTER_LINKS_DATA.forEach(col => {
-        const div = document.createElement('div');
-        div.className = 'footer-col';
-        div.innerHTML = `<h4>${col.heading}</h4>` +
-            col.links.map(l => `<a href="${l.url}">${l.text}</a>`).join('');
-        container.appendChild(div);
-    });
+    container.className = 'footer-links-horizontal';
+    
+    // Row 1: About & News
+    const row1 = document.createElement('div');
+    row1.className = 'footer-links-row';
+    row1.innerHTML = `
+        <a href="#about" class="footer-link-item">About</a>
+        <a href="#news" class="footer-link-item">News</a>
+    `;
+    
+    // Row 2: Terms & Privacy
+    const row2 = document.createElement('div');
+    row2.className = 'footer-links-row';
+    row2.innerHTML = `
+        <a href="#" class="footer-link-item">Terms of Service</a>
+        <a href="#" class="footer-link-item">Privacy Policy</a>
+    `;
+    
+    // Row 3: Email
+    const row3 = document.createElement('div');
+    row3.className = 'footer-links-row';
+    row3.innerHTML = `
+        <a href="mailto:titanarcstudiosofficial@gmail.com" class="footer-link-item">Email: titanarcstudiosofficial@gmail.com</a>
+    `;
+    
+    container.appendChild(row1);
+    container.appendChild(row2);
+    container.appendChild(row3);
 }
 
 function renderFooterSocial() {
@@ -664,32 +661,39 @@ async function loadFirebaseData() {
                     status: d.status || 'COMING SOON',
                     statusColor: d.statusColor || '#E1306C',
                     platform: d.platform || 'PC',
-                    players: d.players || ''
-                });
-            });
-        }
-
-        // Load news
-        const newsSnap = await db.collection('news').orderBy('order').get();
-        if (!newsSnap.empty) {
-            NEWS_DATA.length = 0;
-            newsSnap.forEach(doc => {
-                const d = doc.data();
-                NEWS_DATA.push({
-                    category: d.category,
-                    headline: d.headline,
-                    date: d.date,
+                    players: d.players || '',
+                    image: d.image_url || '',
                     link: d.link || '#'
                 });
             });
+        }
+
+        // Load news safely
+        const newsSnap = await db.collection('news').get();
+        if (!newsSnap.empty) {
+            NEWS_DATA.length = 0;
+            const tempNews = [];
+            newsSnap.forEach(doc => {
+                const d = doc.data();
+                tempNews.push({
+                    category: d.category,
+                    headline: d.headline,
+                    date: d.date,
+                    link: d.link || '#',
+                    image: d.image_url || '',
+                    order: d.order ?? 999
+                });
+            });
+            tempNews.sort((a, b) => a.order - b.order);
+            tempNews.forEach(item => NEWS_DATA.push(item));
             renderNews();
         }
 
-        // Load stats
+        // Load stats (max 3)
         const statsDoc = await db.collection('site_config').doc('stats').get();
         if (statsDoc.exists && statsDoc.data().items) {
             STATS_DATA.length = 0;
-            statsDoc.data().items.forEach(s => STATS_DATA.push(s));
+            statsDoc.data().items.slice(0, 3).forEach(s => STATS_DATA.push(s));
             renderStats();
             initCounters();
         }
@@ -709,6 +713,38 @@ async function loadFirebaseData() {
     } catch (e) {
         console.log('Firebase not configured or unavailable, using defaults:', e.message);
     }
+}
+
+// Interest Email Form
+function initInterestForm() {
+    const form = document.getElementById('interest-form');
+    if (!form) return;
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById('interest-email');
+        const msg = document.getElementById('interest-msg');
+        const btn = document.getElementById('interest-btn');
+        const email = emailInput.value.trim();
+        if (!email) return;
+        btn.disabled = true;
+        btn.textContent = 'SUBMITTING...';
+        try {
+            if (db) {
+                await db.collection('interested_emails').add({
+                    email: email,
+                    timestamp: new Date().toISOString()
+                });
+            }
+            msg.textContent = '🎮 You\'re in! We\'ll keep you updated.';
+            msg.style.color = '#4CAF50';
+            emailInput.value = '';
+        } catch (err) {
+            msg.textContent = 'Something went wrong. Please try again.';
+            msg.style.color = '#E61C24';
+        }
+        btn.disabled = false;
+        btn.textContent = "I'M INTERESTED";
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -737,6 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initSmoothScroll();
     initNavbarScroll();
+    initInterestForm();
 
     // Then try to load from Firebase (will override and re-render if data exists)
     loadFirebaseData();
