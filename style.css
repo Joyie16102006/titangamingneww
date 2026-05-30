@@ -685,12 +685,15 @@ img {
     width: 100%;
     padding-bottom: 10px;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    -ms-overflow-style: none;  /* Hide scrollbar for IE/Edge */
+    scrollbar-width: none;
+    /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar for IE/Edge */
 }
 
 .news-grid::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome/Safari/Opera */
+    display: none;
+    /* Hide scrollbar for Chrome/Safari/Opera */
 }
 
 .news-card {
@@ -818,12 +821,15 @@ img {
     width: 100%;
     padding-bottom: 10px;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    -ms-overflow-style: none;  /* Hide scrollbar for IE/Edge */
+    scrollbar-width: none;
+    /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar for IE/Edge */
 }
 
 .unified-games-grid::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome/Safari/Opera */
+    display: none;
+    /* Hide scrollbar for Chrome/Safari/Opera */
 }
 
 .unified-game-card {
@@ -1161,6 +1167,7 @@ img {
     border-color: #FF0000;
     box-shadow: 0 10px 20px rgba(255, 0, 0, 0.15);
 }
+
 .social-btn[data-brand="youtube"]:hover svg,
 .social-btn[data-brand="youtube"]:hover span {
     color: #FF0000;
@@ -1171,6 +1178,7 @@ img {
     border-color: #5865F2;
     box-shadow: 0 10px 20px rgba(88, 101, 242, 0.15);
 }
+
 .social-btn[data-brand="discord"]:hover svg,
 .social-btn[data-brand="discord"]:hover span {
     color: #5865F2;
@@ -1181,6 +1189,7 @@ img {
     border-color: #E1306C;
     box-shadow: 0 10px 20px rgba(225, 48, 108, 0.15);
 }
+
 .social-btn[data-brand="instagram"]:hover svg,
 .social-btn[data-brand="instagram"]:hover span {
     color: #E1306C;
@@ -1191,6 +1200,7 @@ img {
     border-color: #000000;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
+
 .social-btn[data-brand="x"]:hover svg,
 .social-btn[data-brand="x"]:hover span {
     color: #000000;
@@ -1353,10 +1363,13 @@ img {
 }
 
 @keyframes preloaderPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
         opacity: 0.8;
     }
+
     50% {
         transform: scale(1.1);
         opacity: 1;
@@ -1393,10 +1406,21 @@ img {
 }
 
 @keyframes dots {
-    0% { content: ''; }
-    25% { content: '.'; }
-    50% { content: '..'; }
-    75% { content: '...'; }
+    0% {
+        content: '';
+    }
+
+    25% {
+        content: '.';
+    }
+
+    50% {
+        content: '..';
+    }
+
+    75% {
+        content: '...';
+    }
 }
 
 /* Scroll Progress Bar */
@@ -1616,20 +1640,26 @@ body:not(.loaded) {
         position: relative;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end; /* Push content to the bottom over the image */
-        padding-top: 65px; /* height of mobile navbar */
-        min-height: 80vh; /* Premium tall section height */
-        background-color: #ffffff; /* Smooth fallback */
+        justify-content: flex-end;
+        /* Push content to the bottom over the image */
+        padding-top: 65px;
+        /* height of mobile navbar */
+        min-height: 93vh;
+        /* Increase height (length) on mobile without affecting background ratios */
+        background-color: #ffffff;
+        /* Smooth fallback */
         overflow: hidden;
     }
 
     .hero-bg-wrapper {
         position: absolute;
-        top: 0;
+        top: 65px;
+        /* Shift background down below the mobile header navbar to prevent head cut-off */
         left: 0;
         width: 100%;
-        height: 100%;
-        z-index: 0; /* Behind content */
+        height: calc(100% - 65px);
+        z-index: 0;
+        /* Behind content */
         overflow: hidden;
     }
 
@@ -1637,8 +1667,10 @@ body:not(.loaded) {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: 12% top; /* Aligns to the left-top to show the warrior perfectly from the head/sky downwards */
-        transform: scale(1.1); /* Minimal zoom to maximize character visibility without mirroring */
+        object-position: 12% top;
+        /* Aligns to the left-top to show the warrior perfectly from the head/sky downwards */
+        transform: scale(1.1);
+        /* Minimal zoom to maximize character visibility without mirroring */
         display: block;
     }
 
@@ -1647,14 +1679,14 @@ body:not(.loaded) {
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%; /* Spans full height of wrapper behind text */
+        height: 100%;
+        /* Spans full height of wrapper behind text */
         /* Linear gradient to solid white at bottom */
-        background: linear-gradient(to bottom, 
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.4) 40%,
-            rgba(255, 255, 255, 0.85) 75%,
-            rgba(255, 255, 255, 1) 100%
-        );
+        background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 40%,
+                rgba(255, 255, 255, 0.85) 75%,
+                rgba(255, 255, 255, 1) 100%);
         z-index: 1;
         pointer-events: none;
         /* Backdrop Blur effect for premium glassmorphism overlay */
@@ -1666,9 +1698,9 @@ body:not(.loaded) {
     }
 
     .hero-watermark-img {
-        display: none; /* Hide watermark on mobile */
+        display: none;
+        /* Hide watermark on mobile */
     }
-
     .hero-container {
         position: relative;
         z-index: 2; /* Sits on top of image and blur filter */
@@ -1677,7 +1709,7 @@ body:not(.loaded) {
         transform: none;
         width: 100%;
         height: auto;
-        padding: 100px 6% 35px; /* Spacious top padding to allow full text breathing room on top of the blur */
+        padding: 160px 6% 40px; /* Balanced vertical padding to keep elements overlayed near bottom while preventing button cutoff */
         background-color: transparent; /* Sitting directly on the blur layer */
         display: block;
         box-sizing: border-box;
@@ -1695,7 +1727,8 @@ body:not(.loaded) {
     }
 
     .hero-h1 {
-        font-size: 2.3rem; /* beautiful large mobile headings */
+        font-size: 2.3rem;
+        /* beautiful large mobile headings */
         line-height: 1.15;
         margin-bottom: 16px;
         text-align: left;
@@ -1704,7 +1737,8 @@ body:not(.loaded) {
 
     .hero-p {
         font-size: 1.05rem;
-        color: #444444; /* Dark gray for high-contrast legibility */
+        color: #444444;
+        /* Dark gray for high-contrast legibility */
         margin-bottom: 28px;
         max-width: 100%;
         text-align: left;
@@ -1721,7 +1755,8 @@ body:not(.loaded) {
 
     .hero-actions .btn {
         width: 100%;
-        max-width: 100%; /* Spans full width of screen container, matching the screenshot! */
+        max-width: 100%;
+        /* Spans full width of screen container, matching the screenshot! */
         justify-content: center;
         padding: 15px 24px;
         font-size: 0.85rem;
