@@ -120,9 +120,17 @@ function renderGames(filter = "Games") {
     grid.innerHTML = '';
     grid.className = 'unified-games-grid';
 
+    // Detect platform based on viewport width
+    const targetPlatform = window.innerWidth <= 768 ? 'Mobile' : 'PC';
+
     // If Beta filter, render trail game cards
     if (filter === "Beta") {
-        TRAIL_GAMES_DATA.forEach((game, i) => {
+        const filteredTrails = TRAIL_GAMES_DATA.filter(g => (g.platform || 'PC') === targetPlatform);
+        if (filteredTrails.length === 0) {
+            grid.innerHTML = `<div class="no-platform-msg"><span>📱</span><p>No ${targetPlatform} beta games available yet.</p></div>`;
+            return;
+        }
+        filteredTrails.forEach((game, i) => {
             const card = document.createElement('div');
             card.className = 'unified-game-card scroll-reveal';
             card.style.animationDelay = `${i * 0.12}s`;
@@ -159,10 +167,18 @@ function renderGames(filter = "Games") {
         return;
     }
 
-    // Default: show regular game cards
-    const filtered = filter === "Games"
+    // Default: show regular game cards filtered by platform
+    const allFiltered = filter === "Games"
         ? GAMES_DATA
         : GAMES_DATA.filter(g => g.genre === filter);
+
+    const filtered = allFiltered.filter(g => (g.platform || 'PC') === targetPlatform);
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div class="no-platform-msg"><span>🖥️</span><p>No ${targetPlatform} games available yet.</p></div>`;
+        observeScrollReveal();
+        return;
+    }
 
     filtered.forEach((game, i) => {
         const card = document.createElement('div');
@@ -674,7 +690,15 @@ async function loadFirebaseData() {
             const h = heroDoc.data();
             if (h.image_url) {
                 const heroImg = document.querySelector('.hero-bg-img');
-                if (heroImg) heroImg.src = h.image_url;
+                if (heroImg) {
+                    if (window.innerWidth <= 768) {
+                        heroImg.src = 'hero_mobile.png?v=120';
+                        heroImg.style.display = 'block';
+                        heroImg.style.transform = 'none';
+                    } else {
+                        heroImg.src = h.image_url;
+                    }
+                }
             }
             // Typing targets are set by initTypingEffect, so store for later
             window._fbHero = h;
@@ -691,7 +715,9 @@ async function loadFirebaseData() {
                     desc: d.desc,
                     image: d.image_url || '',
                     genre: d.genre || '',
-                    link: d.link || '#'
+                    link: d.link || '#',
+                    status: d.status || 'coming_soon',
+                    platform: d.platform || 'PC'
                 });
             });
             renderGames();
@@ -824,6 +850,45 @@ document.addEventListener('DOMContentLoaded', () => {
     initInterestForm();
     initGamesScrollButton();
 
+    // Mobile hero image dynamic initialization backup
+    if (window.innerWidth <= 768) {
+        const heroImg = document.querySelector('.hero-bg-img');
+        if (heroImg) {
+            heroImg.src = 'hero_mobile.png?v=120';
+            heroImg.style.display = 'block';
+            heroImg.style.transform = 'none';
+        }
+        const wrapper = document.querySelector('.hero-bg-wrapper');
+        if (wrapper) wrapper.style.backgroundImage = 'none';
+    }
+
     // Then try to load from Firebase (will override and re-render if data exists)
     loadFirebaseData();
 });
+
+// ============================================
+// 5. RESIZE LISTENER — Re-render on 768px boundary crossing
+// ============================================
+(function () {
+    let lastIsMobile = window.innerWidth <= 768;
+    let activeFilter = 'Games';
+
+    // Track the active filter tab so resize uses the right one
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabContainer = document.getElementById('game-filter-tabs');
+        if (tabContainer) {
+            tabContainer.addEventListener('click', (e) => {
+                const btn = e.target.closest('.filter-tab');
+                if (btn) activeFilter = btn.textContent.trim();
+            });
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        const nowIsMobile = window.innerWidth <= 768;
+        if (nowIsMobile !== lastIsMobile) {
+            lastIsMobile = nowIsMobile;
+            renderGames(activeFilter);
+        }
+    });
+}());

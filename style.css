@@ -399,10 +399,12 @@ img {
 
 .hw {
     color: #111111;
+    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .hr {
     color: var(--accent-red);
+    text-shadow: 0px 4px 12px rgba(230, 28, 36, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.12);
 }
 
 .hero-p {
@@ -1651,27 +1653,23 @@ body:not(.loaded) {
         overflow: hidden;
     }
 
+    .hero-bg-img {
+        display: block !important;
+        content: url('hero_mobile.png?v=120') !important;
+        width: 100% !important;
+        height: auto !important;
+        transform: none !important; /* Keep original knight facing the castle orientation */
+    }
+
     .hero-bg-wrapper {
         position: absolute;
         top: 65px;
-        /* Shift background down below the mobile header navbar to prevent head cut-off */
         left: 0;
         width: 100%;
         height: calc(100% - 65px);
         z-index: 0;
-        /* Behind content */
         overflow: hidden;
-    }
-
-    .hero-bg-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: 12% top;
-        /* Aligns to the left-top to show the warrior perfectly from the head/sky downwards */
-        transform: scale(1.1);
-        /* Minimal zoom to maximize character visibility without mirroring */
-        display: block;
+        background-image: none !important;
     }
 
     .hero-fade {
@@ -1680,21 +1678,16 @@ body:not(.loaded) {
         left: 0;
         width: 100%;
         height: 100%;
-        /* Spans full height of wrapper behind text */
-        /* Linear gradient to solid white at bottom */
+        /* Smooth fade from transparent at top to solid white at bottom — no blur */
         background: linear-gradient(to bottom,
                 rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.4) 40%,
-                rgba(255, 255, 255, 0.85) 75%,
+                rgba(255, 255, 255, 0.2) 15%,
+                rgba(255, 255, 255, 0.6) 40%,
+                rgba(255, 255, 255, 0.85) 65%,
+                rgba(255, 255, 255, 0.98) 80%,
                 rgba(255, 255, 255, 1) 100%);
         z-index: 1;
         pointer-events: none;
-        /* Backdrop Blur effect for premium glassmorphism overlay */
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        /* Gradient mask to fade out the blur smoothly at the top (completely removes sharp edges!) */
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
-        mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
     }
 
     .hero-watermark-img {
@@ -2048,4 +2041,28 @@ body:not(.loaded) {
         padding: 12px 20px;
         font-size: 0.8rem;
     }
+}
+
+/* ===== NO PLATFORM GAMES MESSAGE ===== */
+.no-platform-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 60px 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.no-platform-msg span {
+    font-size: 3rem;
+    opacity: 0.6;
+}
+
+.no-platform-msg p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #888;
+    letter-spacing: 0.5px;
 }
