@@ -1613,19 +1613,24 @@ body:not(.loaded) {
 
     /* --- Hero Section --- */
     .hero-new {
+        position: relative;
         display: flex;
         flex-direction: column;
+        justify-content: flex-end; /* Push content to the bottom over the image */
         padding-top: 65px; /* height of mobile navbar */
-        min-height: auto;
-        background-color: #ffffff; /* White bottom area */
+        min-height: 80vh; /* Premium tall section height */
+        background-color: #ffffff; /* Smooth fallback */
+        overflow: hidden;
     }
 
     .hero-bg-wrapper {
-        position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 340px; /* beautiful vertical framing */
+        height: 100%;
+        z-index: 0; /* Behind content */
         overflow: hidden;
-        order: 1; /* Keep visual background image at the top */
     }
 
     .hero-bg-img {
@@ -1639,23 +1644,25 @@ body:not(.loaded) {
 
     .hero-fade {
         position: absolute;
-        width: 100%;
-        height: 180px; /* Expansive blend zone for natural cloud/rock extension */
-        top: auto;
-        bottom: -2px; /* Overlap to eliminate hairline gaps */
+        top: 0;
         left: 0;
-        /* Easing multi-stop gradient mimicking the misty gray-blue mountain sky fading to solid white */
+        width: 100%;
+        height: 100%; /* Spans full height of wrapper behind text */
+        /* Linear gradient to solid white at bottom */
         background: linear-gradient(to bottom, 
             rgba(255, 255, 255, 0) 0%,
-            rgba(235, 239, 245, 0.25) 30%,
-            rgba(215, 221, 230, 0.65) 60%,
-            rgba(255, 255, 255, 0.92) 85%,
-            #ffffff 100%
+            rgba(255, 255, 255, 0.4) 40%,
+            rgba(255, 255, 255, 0.85) 75%,
+            rgba(255, 255, 255, 1) 100%
         );
-        z-index: 2;
+        z-index: 1;
         pointer-events: none;
-        backdrop-filter: blur(2.5px); /* Softly diffuses the cliff rocks and mountain fog to naturally generate and extend them downwards */
-        -webkit-backdrop-filter: blur(2.5px);
+        /* Backdrop Blur effect for premium glassmorphism overlay */
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        /* Gradient mask to fade out the blur smoothly at the top (completely removes sharp edges!) */
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 50%);
     }
 
     .hero-watermark-img {
@@ -1664,15 +1671,16 @@ body:not(.loaded) {
 
     .hero-container {
         position: relative;
+        z-index: 2; /* Sits on top of image and blur filter */
         top: auto;
         left: auto;
         transform: none;
         width: 100%;
         height: auto;
-        padding: 20px 6% 40px;
-        order: 2; /* Content stack below background image */
-        background-color: #ffffff; /* White background */
+        padding: 100px 6% 35px; /* Spacious top padding to allow full text breathing room on top of the blur */
+        background-color: transparent; /* Sitting directly on the blur layer */
         display: block;
+        box-sizing: border-box;
     }
 
     .hero-left {
