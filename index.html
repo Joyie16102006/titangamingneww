@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=55">
+    <link rel="stylesheet" href="style.css?v=60">
 </head>
 
 <body>
@@ -134,8 +134,15 @@
     <section class="news" id="news">
         <div class="section-container">
             <h2 class="section-title scroll-reveal">Latest News</h2>
-            <!-- Dynamic news cards -->
-            <div class="news-grid" id="news-grid"></div>
+            <!-- Dynamic news cards with scroll arrow -->
+            <div class="news-scroll-container">
+                <div class="news-grid" id="news-grid"></div>
+                <button class="news-scroll-btn" id="news-scroll-btn" aria-label="Scroll Right">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -197,7 +204,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
     <script src="firebase-config.js"></script>
-    <script src="script.js?v=110"></script>
+    <script src="script.js?v=120"></script>
 </body>
 
 </html>

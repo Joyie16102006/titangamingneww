@@ -238,8 +238,7 @@ function renderNews() {
     const grid = document.getElementById('news-grid');
     grid.innerHTML = '';
     NEWS_DATA.forEach((item, i) => {
-        const card = document.createElement('a');
-        card.href = item.link;
+        const card = document.createElement('div');
         card.className = 'news-card scroll-reveal';
         card.style.animationDelay = `${i * 0.1}s`;
         
@@ -254,6 +253,7 @@ function renderNews() {
                 <span class="news-category">${item.category}</span>
                 <h3 class="news-headline">${item.headline}</h3>
                 <div class="news-date">${item.date}</div>
+                <a href="${item.link}" target="_blank" class="news-learn-more-btn">LEARN MORE <span class="arrow">&rarr;</span></a>
             </div>
         `;
         grid.appendChild(card);
@@ -587,6 +587,33 @@ function initGamesScrollButton() {
     });
 }
 
+// --- Horizontal Scroll Button for News ---
+function initNewsScrollButton() {
+    const btn = document.getElementById('news-scroll-btn');
+    const grid = document.getElementById('news-grid');
+    if (!btn || !grid) return;
+
+    btn.addEventListener('click', () => {
+        const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+        if (grid.scrollLeft >= maxScrollLeft - 15) {
+            grid.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            const card = grid.querySelector('.news-card');
+            const scrollAmount = card ? (card.offsetWidth + 30) : 400;
+            grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    });
+
+    grid.addEventListener('scroll', () => {
+        const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+        if (grid.scrollLeft >= maxScrollLeft - 15) {
+            btn.classList.add('at-end');
+        } else {
+            btn.classList.remove('at-end');
+        }
+    });
+}
+
 // --- Back to Top Button ---
 function initBackToTop() {
     const btn = document.getElementById('back-to-top');
@@ -700,6 +727,10 @@ async function loadFirebaseData() {
                     }
                 }
             }
+            if (h.trailer_url) {
+                const trailerBtn = document.getElementById('trailer-btn');
+                if (trailerBtn) trailerBtn.href = h.trailer_url;
+            }
             // Typing targets are set by initTypingEffect, so store for later
             window._fbHero = h;
         }
@@ -763,9 +794,8 @@ async function loadFirebaseData() {
             renderNews();
         }
 
-        // Load stats (max 3)
         const statsDoc = await db.collection('site_config').doc('stats').get();
-        if (statsDoc.exists && statsDoc.data().items) {
+        if (statsDoc.exists && statsDoc.data() && Array.isArray(statsDoc.data().items) && statsDoc.data().items.length > 0) {
             STATS_DATA.length = 0;
             statsDoc.data().items.slice(0, 3).forEach(s => STATS_DATA.push(s));
             renderStats();
@@ -849,6 +879,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavbarScroll();
     initInterestForm();
     initGamesScrollButton();
+    initNewsScrollButton();
 
     // Mobile hero image dynamic initialization backup
     if (window.innerWidth <= 768) {
